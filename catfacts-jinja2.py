@@ -1,13 +1,24 @@
 #!/usr/bin/env python3
 
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape, Template
 import requests
 
 
 def main():
     list_catfacts_url: str = "https://catfact.ninja/facts?limit=10"
     catfacts = get_facts(list_catfacts_url)
-    print(catfacts)
+    template = generate_template("templates", "catfacts.html")
+    print(render_template(catfacts, template))
+
+
+def render_template(catfacts: list, template: Template):
+    return template.render(list=catfacts)
+
+
+def generate_template(file_system: str, template: str) -> Template:
+    env = Environment(loader=FileSystemLoader(file_system), autoescape=select_autoescape())
+    template = env.get_template(template)
+    return template
 
 
 def get_facts(url: str) -> list:
