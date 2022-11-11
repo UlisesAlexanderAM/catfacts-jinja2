@@ -11,7 +11,7 @@ def main():
     print(render_template(catfacts, template))
 
 
-def render_template(catfacts: list, template: Template):
+def render_template(catfacts: list, template: Template) -> str:
     return template.render(list=catfacts)
 
 
